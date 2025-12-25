@@ -10,10 +10,7 @@ class ApiError extends Error {
   }
 }
 
-async function request<T>(
-  endpoint: string,
-  options?: RequestInit,
-): Promise<T> {
+async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = endpoint.startsWith("http") ? endpoint : `/api${endpoint}`;
 
   const response = await fetch(url, {

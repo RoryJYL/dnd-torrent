@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { login, checkAuth } from "./qbittorrent";
+import { checkAuth, login } from "./qbittorrent";
 
 const app = new Hono();
 
@@ -17,8 +17,6 @@ app.post("/api/login", async (c) => {
   const { username, password } = await c.req.json();
   const response = await login(username, password);
 
-  console.log(await response.text());
-
   // get the cookies from the response
   const cookies = response.headers.get("Set-Cookie");
   if (!cookies) {
@@ -32,7 +30,6 @@ app.post("/api/login", async (c) => {
 });
 
 app.get("/api/auth/check", async (c) => {
-  // Only pass the Cookie header - explicit and safe
   const cookie = c.req.header("Cookie");
   if (!cookie) {
     return c.json({ authenticated: false }, 401);
