@@ -3,6 +3,10 @@ import { checkAuth, login } from "./qbittorrent";
 
 const app = new Hono();
 
+app.use("*", async (_c, next) => {
+  await next();
+});
+
 app.post("/api/login", async (c) => {
   const { username, password } = await c.req.json();
   const response = await login(username, password);
