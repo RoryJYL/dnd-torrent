@@ -17,5 +17,5 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardRouteComponent() {
-  return <div>Dashboard</div>;
+  return <div>Dashboard Page</div>;
 }
