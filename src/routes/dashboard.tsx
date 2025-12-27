@@ -27,7 +27,7 @@ import {
 } from "@/hooks/use-torrents";
 import { parseTorrentInput } from "@/lib/torrent-utils";
 import { useAuthStore } from "@/store/auth-store";
-import { type PendingTorrent, useTorrentStore } from "@/store/torrent-store";
+import { useTorrentStore } from "@/store/torrent-store";
 
 export const Route = createFileRoute("/dashboard")({
   beforeLoad: ({ location }) => {
