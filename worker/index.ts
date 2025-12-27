@@ -12,7 +12,7 @@ type Variables = {
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
 // Middleware: create qBittorrent client once per request
-app.use("*", async (c, next) => {
+app.use("/api/*", async (c, next) => {
   c.set("qb", createQBittorrentClient(c.env.QBITTORRENT_URL));
   await next();
 });
