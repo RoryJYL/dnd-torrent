@@ -13,11 +13,15 @@ class ApiError extends Error {
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = endpoint.startsWith("http") ? endpoint : `/api${endpoint}`;
 
+  const isFormData = options?.body instanceof FormData;
+
   const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
+    headers: isFormData
+      ? options?.headers
+      : {
+          "Content-Type": "application/json",
+          ...options?.headers,
+        },
     ...options,
   });
 
@@ -41,14 +45,24 @@ export const apiClient = {
     request<T>(endpoint, {
       ...options,
       method: "POST",
-      body: body ? JSON.stringify(body) : undefined,
+      body:
+        body instanceof FormData
+          ? body
+          : body
+            ? JSON.stringify(body)
+            : undefined,
     }),
 
   put: <T>(endpoint: string, body?: unknown, options?: RequestInit) =>
     request<T>(endpoint, {
       ...options,
       method: "PUT",
-      body: body ? JSON.stringify(body) : undefined,
+      body:
+        body instanceof FormData
+          ? body
+          : body
+            ? JSON.stringify(body)
+            : undefined,
     }),
 
   delete: <T>(endpoint: string, options?: RequestInit) =>
